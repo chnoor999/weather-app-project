@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from "expo-font";
+import { StatusBar } from "react-native";
+
+import HomeScreen from "./app/screens/HomeScreen";
+import Screen from "./app/screens/Screen";
 
 export default function App() {
+  const [fontLoaded] = useFonts({
+    openSans: require("./app/config/fonts/OpenSans-Regular.ttf"),
+    openSansBold: require("./app/config/fonts/OpenSans-Bold.ttf"),
+    openSansSemiBold: require("./app/config/fonts/OpenSans-SemiBold.ttf"),
+  });
+
+  if (!fontLoaded) {
+    return;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={"transparent"}
+        translucent={true}
+      />
+      <Screen>
+        <HomeScreen />
+      </Screen>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
