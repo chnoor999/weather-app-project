@@ -4,18 +4,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const ForecastListItem = ({ day, temp, imageUrl }) => {
   return (
-    <View style={styles.container}>
+    <Animated.View entering={FadeInDown.delay(350).springify()} style={styles.container}>
       <Image style={styles.image} source={{ uri: "https://" + imageUrl }} />
       <Text style={styles.day}>{day}</Text>
       <Text style={styles.temp}>{temp}&#176;</Text>
-    </View>
+    </Animated.View>
   );
 };
 
-export default memo(ForecastListItem);
 
 const styles = StyleSheet.create({
   container: {
@@ -44,3 +44,5 @@ const styles = StyleSheet.create({
     marginVertical: hp("1%"),
   },
 });
+
+export default memo(ForecastListItem);

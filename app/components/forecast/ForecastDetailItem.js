@@ -4,13 +4,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const ForecastDetailItem = ({ imagePath, text }) => {
   return (
-    <View style={styles.detialContainer}>
+    <Animated.View entering={FadeInDown.delay(250)} style={styles.detialContainer}>
       <Image style={styles.image} source={imagePath} />
       <Text style={styles.text}>{text}</Text>
-    </View>
+    </Animated.View>
   );
 };
 

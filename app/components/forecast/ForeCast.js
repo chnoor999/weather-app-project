@@ -4,25 +4,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
-import ForecastDetail from "./forecast/ForecastDetail";
-import ForecastList from "./forecast/ForecastList";
+import ForecastDetail from "./ForecastDetail";
+import ForecastList from "./ForecastList";
 
 const ForeCast = ({ data }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.location}>
+      <Animated.Text entering={FadeInDown.delay(100)} style={styles.location}>
         {data?.location?.name},
         <Text style={styles.locationCountry}>
           {" " + data?.location?.country}
         </Text>
-      </Text>
-      <Image
+      </Animated.Text>
+      <Animated.Image
+      entering={FadeInDown.delay(150)}
         style={styles.image}
         source={{ uri: `https://${data?.current?.condition?.icon}` }}
       />
-      <Text style={styles.degree}>{data?.current?.temp_c}&#176;</Text>
-      <Text style={styles.condition}>{data?.current?.condition?.text}</Text>
+      <Animated.Text entering={FadeInDown.delay(200)} style={styles.degree}>{data?.current?.temp_c}&#176;</Animated.Text>
+      <Animated.Text entering={FadeInDown.delay(200)} style={styles.condition}>{data?.current?.condition?.text}</Animated.Text>
       <ForecastDetail data={data} />
       <ForecastList data={data} />
     </View>
@@ -32,6 +34,7 @@ const ForeCast = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position:"relative",
   },
   location: {
     textAlign: "center",

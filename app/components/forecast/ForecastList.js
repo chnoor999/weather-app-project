@@ -5,24 +5,33 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Animated, { FadeInDown } from "react-native-reanimated";
+
 import ForecastListItem from "./ForecastListItem";
 
 const ForecastList = ({ data }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.labelContainer}>
+      <Animated.View
+        entering={FadeInDown.delay(300)}
+        style={styles.labelContainer}
+      >
         <AntDesign name="calendar" size={hp("2.5%")} color="#fff" />
         <Text style={styles.label}>Daily forecast</Text>
-      </View>
+      </Animated.View>
       <View>
         <FlatList
           data={data?.forecast?.forecastday}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
+            const date = new Date(item?.date);
+            const options = { weekday: "long" };
+            const dayName = date.toLocaleDateString("en-US", options);
+
             return (
               <ForecastListItem
-                day={item?.date}
+                day={dayName}
                 imageUrl={item?.day?.condition?.icon}
                 temp={item?.day?.avgtemp_c}
               />
@@ -33,8 +42,6 @@ const ForecastList = ({ data }) => {
     </View>
   );
 };
-
-export default memo(ForecastList);
 
 const styles = StyleSheet.create({
   container: {
@@ -53,3 +60,5 @@ const styles = StyleSheet.create({
     fontFamily: "openSans",
   },
 });
+
+export default memo(ForecastList);
