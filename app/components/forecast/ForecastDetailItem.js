@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    gap:hp('0.5%')
   },
   image: {
-    width: hp("3.8%"),
-    height: hp("3.8%"),
+    width: hp("3%"),
+    height: hp("3%"),
   },
   text: {
     fontSize: hp("1.8%"),

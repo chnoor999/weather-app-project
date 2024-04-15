@@ -4,44 +4,53 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown } from "react-native-reanimated";
+import { getCurrentRegionTimeDate } from "../../utils/date";
 
-const ForecastListItem = ({ day, temp, imageUrl }) => {
+const ForecastListItem = ({ time, temp, imageUrl }) => {
   return (
-    <Animated.View entering={FadeInDown.delay(350).springify()} style={styles.container}>
-      <Image style={styles.image} source={{ uri: "https://" + imageUrl }} />
-      <Text style={styles.day}>{day}</Text>
+    <Animated.View
+      entering={FadeInDown.delay(350).springify()}
+      style={styles.container}
+    >
+      <Text style={styles.time}>{time}</Text>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: "https://" + imageUrl }} />
+      </View>
       <Text style={styles.temp}>{temp}&#176;</Text>
     </Animated.View>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff14",
     borderRadius: 25,
-    width: hp("15%"),
+    width: hp("14%"),
     alignItems: "center",
     justifyContent: "center",
     marginVertical: hp("2%"),
     marginHorizontal: hp("1%"),
+    padding: hp("1%"),
+  },
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: hp("1%"),
   },
   image: {
     width: hp("8%"),
     height: hp("8%"),
-    marginVertical: hp("1%"),
   },
-  day: {
+  time: {
     fontSize: hp("1.8%"),
-    color: "#fff",
+    color: "#ffffffe3",
     fontFamily: "openSans",
   },
   temp: {
-    fontSize: hp("2.4%"),
-    color: "#fff",
+    fontSize: hp("2.2%"),
+    color: "#ffffffe3",
     fontFamily: "openSansSemiBold",
-    marginVertical: hp("1%"),
   },
 });
 

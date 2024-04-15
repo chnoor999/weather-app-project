@@ -19,8 +19,8 @@ const Forecastdetail = ({ data }) => {
         text={data?.current?.humidity + "%"}
       />
       <ForecastDetailItem
-        imagePath={require("../../assets/images/sun.png")}
-        text={data?.forecast?.forecastday[0]?.astro.sunrise}
+        imagePath={require("../../assets/images/rain.png")}
+        text={data?.forecast?.forecastday[0]?.day.daily_chance_of_rain + "%"}
       />
     </View>
   );

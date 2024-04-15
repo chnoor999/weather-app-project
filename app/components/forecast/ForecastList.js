@@ -1,6 +1,12 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { memo } from "react";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,32 +14,50 @@ import {
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import ForecastListItem from "./ForecastListItem";
+import { formateTime } from "../../utils/date";
 
 const ForecastList = ({ data }) => {
+  const filteringListWithHours = data?.forecast?.forecastday[0].hour.filter(
+    (item) => {
+      const nowTime = new Date().getHours()
+      const listTime = new Date(item?.time).getHours()
+      
+      return listTime >= nowTime;
+    }
+  );
+  
   return (
     <View style={styles.container}>
       <Animated.View
         entering={FadeInDown.delay(300)}
         style={styles.labelContainer}
       >
-        <AntDesign name="calendar" size={hp("2.5%")} color="#fff" />
-        <Text style={styles.label}>Daily forecast</Text>
+        <Text style={styles.label}>Today</Text>
+        <TouchableOpacity style={styles.next7DaysContainer}>
+          <Text style={styles.next7Day}>Next 7 day</Text>
+          <MaterialIcons
+            style={styles.nextIcon}
+            name="navigate-next"
+            size={hp("2.5%")}
+            color="#fff"
+          />
+        </TouchableOpacity>
       </Animated.View>
       <View>
         <FlatList
-          data={data?.forecast?.forecastday}
+          data={filteringListWithHours}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
-            const date = new Date(item?.date);
-            const options = { weekday: "long" };
-            const dayName = date.toLocaleDateString("en-US", options);
+            const listTime = new Date(item?.time).getHours();
+            const nowTime = new Date().getHours();
 
+            const isNow = listTime == nowTime;
             return (
               <ForecastListItem
-                day={dayName}
-                imageUrl={item?.day?.condition?.icon}
-                temp={item?.day?.avgtemp_c}
+                time={isNow ? "NOW" : formateTime(item?.time_epoch)}
+                imageUrl={item?.condition?.icon}
+                temp={item?.temp_c}
               />
             );
           }}
@@ -51,13 +75,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 15,
     alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: hp("2%"),
     marginTop: hp("2%"),
   },
   label: {
     fontSize: hp("2%"),
-    color: "#ffffffd5",
+    color: "#fff",
+    fontFamily: "openSansBold",
+  },
+  next7DaysContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: hp("0.5%"),
+  },
+  next7Day: {
+    fontSize: hp("1.5%"),
+    color: "#fff",
     fontFamily: "openSans",
+  },
+  nextIcon: {
+    marginTop: hp("0.3%"),
   },
 });
 

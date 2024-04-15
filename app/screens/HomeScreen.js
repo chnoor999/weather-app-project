@@ -17,9 +17,9 @@ export default function HomeScreen() {
   const forecastHandler = async (cityName) => {
     setIsLoading(true);
     const res = await getForecast(cityName);
+    setForecastData(res);
     setAppIsready(true);
     setIsLoading(false);
-    setForecastData(res);
   };
 
   useEffect(() => {

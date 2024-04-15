@@ -12,7 +12,6 @@ import {
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
-  FadeInLeft,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
