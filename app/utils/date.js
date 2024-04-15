@@ -15,7 +15,7 @@ export const getCurrentRegionTimeDate = (timezone) => {
   return currentDate + " | " + currentTime;
 };
 
-export const formateTime = (time) => {
+export const formatTime = (time) => {
   let timestamp = time;
 
   let milliseconds = timestamp * 1000;
