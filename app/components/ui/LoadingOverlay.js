@@ -1,21 +1,12 @@
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Screen from "../../screens/Screen";
 
-const LoadingOverlay = ({ overlay, visible }) => {
+const LoadingOverlay = () => {
   return (
-    <Modal visible={visible} transparent={true}>
-      <View
-        style={[
-          styles.container,
-          overlay && {
-            backgroundColor: "#0000006c",
-          },
-        ]}
-      >
+    <Screen>
+      <View style={styles.container}>
         <Progress.Circle
           size={hp("8%")}
           borderWidth={4}
@@ -24,7 +15,7 @@ const LoadingOverlay = ({ overlay, visible }) => {
           endAngle={0.8}
         />
       </View>
-    </Modal>
+    </Screen>
   );
 };
 
@@ -35,5 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    height: "100%",
   },
 });

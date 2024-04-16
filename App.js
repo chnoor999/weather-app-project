@@ -1,8 +1,13 @@
 import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 
 import HomeScreen from "./app/screens/HomeScreen";
 import Screen from "./app/screens/Screen";
+import Next7DaysScreen from "./app/screens/Next7DaysForeCastScreen";
+import { ForeCastDataContextProvider } from "./app/store/forecastData-context";
 
 const Root = () => {
   const [fontLoaded] = useFonts({
@@ -16,23 +21,26 @@ const Root = () => {
   }
 
   return (
-    <>
-      <Screen>
-        <HomeScreen />
-      </Screen>
-    </>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, animation: "slide_from_right" }}
+    >
+      <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen name="next7Days" component={Next7DaysScreen} />
+    </Stack.Navigator>
   );
 };
 
 export default function App() {
   return (
-    <>
-      <StatusBar
-        barStyle={"light-content"}
-        backgroundColor={"transparent"}
-        translucent={true}
-      />
-      <Root />
-    </>
+    <ForeCastDataContextProvider>
+      <NavigationContainer>
+        <StatusBar
+          barStyle={"light-content"}
+          backgroundColor={"transparent"}
+          translucent={true}
+        />
+        <Root />
+      </NavigationContainer>
+    </ForeCastDataContextProvider>
   );
 }

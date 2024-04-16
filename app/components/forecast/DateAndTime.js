@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { memo, useEffect, useState } from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getCurrentRegionTimeDate } from "../../utils/date";
+import { useForecastData } from "../../store/forecastData-context";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-const DateAndTime = ({ data }) => {
+const DateAndTime = () => {
+  const { data } = useForecastData();
   const [formatedTime, setFormatedTime] = useState("");
 
   useEffect(() => {
@@ -27,9 +27,9 @@ const DateAndTime = ({ data }) => {
   }, [formatedTime]);
 
   return (
-    <View>
+    <Animated.View entering={FadeInDown.delay(200)}>
       <Text style={styles.timeAndDate}>{formatedTime}</Text>
-    </View>
+    </Animated.View>
   );
 };
 

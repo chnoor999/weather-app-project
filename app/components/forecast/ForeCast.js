@@ -1,40 +1,40 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React, { memo, useEffect, useState } from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { StyleSheet, Text, View } from "react-native";
+import React, { memo, useState } from "react";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { useForecastData } from "../../store/forecastData-context";
 
 import ForecastDetail from "./ForecastDetail";
 import ForecastList from "./ForecastList";
 import DateAndTime from "./DateAndTime";
 
-const ForeCast = ({ data }) => {
+const ForeCast = () => {
+  const { data } = useForecastData();
+
   const [lineNoWeatherText, setLineNoWeatherText] = useState(1);
 
   return (
     <View style={styles.container}>
-      <Animated.Text entering={FadeInDown.delay(100)} style={styles.location}>
+      <Animated.Text entering={FadeInDown.delay(150)} style={styles.location}>
         {data?.location?.name},
         <Text style={styles.locationCountry}>
           {" " + data?.location?.country}
         </Text>
       </Animated.Text>
-      <DateAndTime data={data} />
+      <DateAndTime />
       <View style={styles.imageContainer}>
         <Animated.Image
-          entering={FadeInDown.delay(150)}
+          entering={FadeInDown.delay(250)}
           style={styles.image}
           source={{ uri: `https://${data?.current?.condition?.icon}` }}
         />
       </View>
       <View style={styles.WeatherInfoContainer}>
-        <Animated.Text entering={FadeInDown.delay(200)} style={styles.degree}>
+        <Animated.Text entering={FadeInDown.delay(300)} style={styles.degree}>
           {data?.current?.temp_c}&#176;
         </Animated.Text>
         <Animated.Text
-          entering={FadeInDown.delay(200)}
+          entering={FadeInDown.delay(350)}
           style={styles.condition}
           numberOfLines={lineNoWeatherText}
           onPress={() => setLineNoWeatherText((pre) => (pre === 1 ? 0 : 1))}
@@ -43,7 +43,7 @@ const ForeCast = ({ data }) => {
         </Animated.Text>
       </View>
       <ForecastDetail data={data} />
-      <ForecastList data={data} />
+      <ForecastList />
     </View>
   );
 };

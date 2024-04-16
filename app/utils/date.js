@@ -15,6 +15,16 @@ export const getCurrentRegionTimeDate = (timezone) => {
   return currentDate + " | " + currentTime;
 };
 
+export const ConvertDateToDay = (timezone, date) => {
+  const listDate = new Date(date);
+  const day = listDate.toLocaleString("en-US", {
+    timeZone: timezone,
+    weekday: "short",
+  });
+
+  return day;
+};
+
 export const formatTime = (time) => {
   let timestamp = time;
 

@@ -4,11 +4,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-const ForecastDetailItem = ({ imagePath, text }) => {
+const ForecastDetailItem = ({ imagePath, text, isForNext7Days }) => {
   return (
-    <Animated.View entering={FadeInDown.delay(250)} style={styles.detialContainer}>
+    <Animated.View
+      entering={!isForNext7Days && FadeInDown.delay(400)}
+      style={styles.detialContainer}
+    >
       <Image style={styles.image} source={imagePath} />
       <Text style={styles.text}>{text}</Text>
     </Animated.View>
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap:hp('0.5%')
+    gap: hp("0.5%"),
   },
   image: {
     width: hp("3%"),

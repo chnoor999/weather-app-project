@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import React, { memo, useState } from "react";
 import Animated, {
+  FadeInDown,
   FadeInLeft,
   useSharedValue,
   withTiming,
@@ -41,7 +42,10 @@ const SearchBar = ({
 
   return (
     <>
-      <View style={[styles.firstContainer]}>
+      <Animated.View
+        entering={FadeInDown.delay(100)}
+        style={[styles.firstContainer]}
+      >
         <Animated.View
           style={[
             styles.container,
@@ -69,7 +73,7 @@ const SearchBar = ({
             <AntDesign name="search1" size={hp("2.5%")} color={"#fff"} />
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      </Animated.View>
       {searchAutocomplete.length && (
         <SearchRecommendationList
           data={searchRecommendation}

@@ -1,16 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React, { memo } from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { getCurrentRegionTimeDate } from "../../utils/date";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Animated, { FadeInRight } from "react-native-reanimated";
 
-const ForecastListItem = ({ time, temp, imageUrl }) => {
+const ForecastListItem = ({ time, temp, imageUrl, index }) => {
   return (
     <Animated.View
-      entering={FadeInDown.delay(350).springify()}
+      entering={FadeInRight.delay(100 * index)}
       style={styles.container}
     >
       <Text style={styles.time}>{time}</Text>

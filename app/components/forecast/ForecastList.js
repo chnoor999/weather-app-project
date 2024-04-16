@@ -1,26 +1,52 @@
 import React, { memo } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import Animated from "react-native-reanimated";
 import { FadeInDown } from "react-native-reanimated";
 import ForecastListItem from "./ForecastListItem";
 import { formatTime } from "../../utils/date";
+import { useNavigation } from "@react-navigation/native";
+import { useForecastData } from "../../store/forecastData-context";
 
-const ForecastList = ({ data }) => {
-  const filteringListWithHours = data?.forecast?.forecastday[0]?.hour?.filter(item => {
-    const nowTime = new Date().getHours();
-    const listTime = new Date(item?.time).getHours();
-    return listTime >= nowTime;
-  });
+const ForecastList = () => {
+  const {data} = useForecastData()
+  const navigation = useNavigation();
+
+  const filteringListWithHours = data?.forecast?.forecastday[0]?.hour?.filter(
+    (item) => {
+      const nowTime = new Date().getHours();
+      const listTime = new Date(item?.time).getHours();
+      return listTime >= nowTime;
+    }
+  );
 
   return (
     <View style={styles.container}>
-      <Animated.View animation={FadeInDown} delay={300} style={styles.labelContainer}>
-        <Text style={styles.label}>Today</Text>
-        <TouchableOpacity style={styles.next7DaysContainer} onPress={() => {}}>
-          <Text style={styles.next7Day}>Next 7 days</Text>
-          <MaterialIcons name="navigate-next" style={styles.nextIcon} size={hp("2.5%")} color="#fff" />
+      <Animated.View
+        animation={FadeInDown.delay(10000)}
+        style={styles.labelContainer}
+      >
+        <Animated.Text entering={FadeInDown.delay(450)} style={styles.label}>Today</Animated.Text>
+        <TouchableOpacity
+          style={styles.next7DaysContainer}
+          onPress={() => navigation.navigate("next7Days")}
+        >
+          <Animated.Text entering={FadeInDown.delay(450)} style={styles.next7Day}>Next 7 days</Animated.Text>
+          <MaterialIcons
+            name="navigate-next"
+            style={styles.nextIcon}
+            size={hp("2.5%")}
+            color="#fff"
+          />
         </TouchableOpacity>
       </Animated.View>
       <View>
@@ -28,7 +54,7 @@ const ForecastList = ({ data }) => {
           data={filteringListWithHours}
           horizontal
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => {
+          renderItem={({ item,index }) => {
             const listTime = new Date(item?.time).getHours();
             const nowTime = new Date().getHours();
             const isNow = listTime === nowTime;
@@ -37,6 +63,7 @@ const ForecastList = ({ data }) => {
                 time={isNow ? "NOW" : formatTime(item?.time_epoch)}
                 imageUrl={item?.condition?.icon}
                 temp={item?.temp_c}
+                index={index}
               />
             );
           }}
