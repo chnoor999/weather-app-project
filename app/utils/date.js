@@ -26,11 +26,8 @@ export const ConvertDateToDay = (timezone, date) => {
 };
 
 export const formatTime = (time) => {
-  let timestamp = time;
 
-  let milliseconds = timestamp * 1000;
-
-  let date = new Date(milliseconds);
+  let date = new Date(time);
 
   let hours = date.getHours();
 
@@ -40,34 +37,4 @@ export const formatTime = (time) => {
   let timeString = hours + " " + meridiem;
 
   return timeString;
-};
-
-// const a = new Date().toLocaleString("en-US", { timeZone: "America/Toronto" });
-// const [datePart, timePart] = a.split(", ");
-// const [month, day, year] = datePart.split("/");
-// const [time, meridiem] = timePart.split(" ");
-// const [hours, minutes, seconds] = time.split(":");
-// const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
-// const parsedDate = new Date(year, month - 1, day, adjustedHours, minutes, seconds);
-
-// console.log("Parsed Date:", parsedDate.getTime());
-export const matchRegionDateToCurrentDate = (timeZone) => {
-  const a = new Date().toLocaleString("en-US", { timeZone });
-  const [datePart, timePart] = a.split(", ");
-  const [month, day, year] = datePart.split("/");
-  const [time, meridiem] = timePart.split(" ");
-  const [hours, minutes, seconds] = time.split(":");
-  const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
-  const parsedDate = new Date(
-    year,
-    month - 1,
-    day,
-    adjustedHours,
-    minutes,
-    seconds
-  );
-
-  const currentDate = new Date();
-
-  const match = parsedDate >= currentDate;
 };
