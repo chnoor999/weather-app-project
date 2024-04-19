@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { memo, useState } from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useForecastData } from "../../store/forecastData-context";
 
@@ -12,10 +15,16 @@ const ForeCast = () => {
   const { data } = useForecastData();
 
   const [lineNoWeatherText, setLineNoWeatherText] = useState(1);
+  const [lineNoCityCountryText, setLineNoCityCountryText] = useState(1);
 
   return (
     <View style={styles.container}>
-      <Animated.Text entering={FadeInDown.delay(150)} style={styles.location}>
+      <Animated.Text
+        numberOfLines={lineNoCityCountryText}
+        entering={FadeInDown.delay(150)}
+        style={styles.location}
+        onPress={() => setLineNoCityCountryText((pre) => (pre === 1 ? 0 : 1))}
+      >
         {data?.location?.name},
         <Text style={styles.locationCountry}>
           {" " + data?.location?.country}
@@ -59,6 +68,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "openSansSemiBold",
     paddingVertical: hp("1%"),
+    width: wp("90"),
+    alignSelf: "center",
   },
   locationCountry: {
     color: "#fff",

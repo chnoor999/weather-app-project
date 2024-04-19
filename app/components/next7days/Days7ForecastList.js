@@ -9,7 +9,7 @@ const Days7ForecastList = () => {
   const { data } = useForecastData();
 
   const filterNext7DaysForecast = data.forecast.forecastday.filter((item) => {
-    const currentDate = new Date().getDate();
+    const currentDate = new Date(data.location.localtime).getDate();
     const RemoveCurrentDateList = currentDate != new Date(item.date).getDate();
 
     return RemoveCurrentDateList;
@@ -19,7 +19,7 @@ const Days7ForecastList = () => {
     <FlatList
       data={filterNext7DaysForecast}
       renderItem={({ item, index }) => {
-        const tomorrowDate = new Date().getDate() + 1;
+        const tomorrowDate = new Date(data.location.localtime).getDate() + 1;
         const checkTommorowList =
           tomorrowDate == new Date(item?.date).getDate();
 
@@ -27,11 +27,7 @@ const Days7ForecastList = () => {
           <TommorowList
             conditionText={item?.day?.condition?.text}
             conditionIcon={item?.day?.condition?.icon}
-            day={
-              checkTommorowList
-                ? "Tommorrow"
-                : ConvertDateToDay(data.location?.tx_id, item?.date)
-            }
+            day={"Tommorrow"}
             temp={item?.day?.avgtemp_c}
             data={item}
             index={index}
@@ -44,7 +40,7 @@ const Days7ForecastList = () => {
             day={
               checkTommorowList
                 ? "Tommorrow"
-                : ConvertDateToDay(data.location?.tx_id, item?.date)
+                : ConvertDateToDay(item?.date)
             }
             temp={item?.day?.avgtemp_c}
           />

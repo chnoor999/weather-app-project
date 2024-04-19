@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "row",
     flex: 1,
-    maxWidth: wp("72%"),
+    marginRight: hp("1.5%"),
     overflow: "hidden",
   },
   listText: {
