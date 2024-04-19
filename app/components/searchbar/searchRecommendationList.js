@@ -1,5 +1,6 @@
 import {
   FlatList,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,10 +12,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
 const searchRecommendationList = ({
   data,
@@ -26,6 +24,10 @@ const searchRecommendationList = ({
   const height = useSharedValue(0);
 
   const searchRecommendationListHandler = (item) => {
+    if (item?.id === "useCurrentCity") {
+      console.log("cureent city");
+      return;
+    }
     setForecastCity(item.name + " " + item.country);
     setSearchQuery("");
     setSearchRecommendation([]);
@@ -35,19 +37,29 @@ const searchRecommendationList = ({
   const recommentdationLength = data.length;
 
   useEffect(() => {
-      height.value = withTiming(hp("5.5%") * recommentdationLength, {
-        duration: 250,
-      });
+    height.value = withTiming(hp("5.5%") * recommentdationLength, {
+      duration: 250,
+    });
   }, [recommentdationLength]);
+
+  // const a = new Date().toLocaleString("en-US", { timeZone: "America/Toronto" });
+  // const [datePart, timePart] = a.split(", ");
+  // const [month, day, year] = datePart.split("/");
+  // const [time, meridiem] = timePart.split(" ");
+  // const [hours, minutes, seconds] = time.split(":");
+  // const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
+  // const parsedDate = new Date(year, month - 1, day, adjustedHours, minutes, seconds);
+  
+  // console.log("Parsed Date:", parsedDate.getTime());
 
   return (
     <Animated.View style={[styles.container, { height }]}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => {
+      {data &&
+        data?.map((item) => {
           return (
             <TouchableOpacity
-              onPress={searchRecommendationListHandler.bind(this, item)}
+            key={item.id}
+              onPress={() => searchRecommendationListHandler(item)}
             >
               <Animated.View style={[styles.listContainer]}>
                 <Ionicons
@@ -56,18 +68,17 @@ const searchRecommendationList = ({
                   size={24}
                   color="grey"
                 />
-                <Text style={styles.listText}>{item.name},</Text>
-                <Text style={styles.listText}> {item.country}</Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.listText}>{item.name},</Text>
+                  <Text style={styles.listText}> {item.country}</Text>
+                </View>
               </Animated.View>
             </TouchableOpacity>
           );
-        }}
-        ItemSeparatorComponent={<View style={styles.ItemSeparatorComponent} />}
-      />
+        })}
     </Animated.View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e1e1e1ff",
     borderRadius: 15,
     zIndex: 10,
+    overflow: "hidden",
   },
   listContainer: {
     flexDirection: "row",
@@ -87,6 +99,13 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: hp("1.5%"),
+  },
+  textContainer:{
+    flexDirection: "row",
+    // borderWidth:1,
+    flex:1,
+    maxWidth:wp("72%"),
+    overflow:"hidden",
   },
   listText: {
     fontSize: hp("2%"),
@@ -98,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-  export default memo(searchRecommendationList);
+export default memo(searchRecommendationList);

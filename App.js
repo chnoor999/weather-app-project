@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 import HomeScreen from "./app/screens/HomeScreen";
-import Screen from "./app/screens/Screen";
 import Next7DaysScreen from "./app/screens/Next7DaysForeCastScreen";
 import { ForeCastDataContextProvider } from "./app/store/forecastData-context";
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "c87a8a5999ae4a4dbee201129240404";
+const API_KEY = "85899c9542b84eb1bea115110241804";
 
 export const getForecast = async (city) => {
   const res =

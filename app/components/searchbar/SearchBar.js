@@ -1,5 +1,13 @@
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import React, { memo, useState } from "react";
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { memo, useRef, useState } from "react";
 import Animated, {
   FadeInDown,
   FadeInLeft,
@@ -21,12 +29,14 @@ const SearchBar = ({
   searchRecommendation,
   searchAutocomplete,
   setForecastCity,
+  setShowIntialSearchRecommendation,
 }) => {
   const width = useSharedValue(hp("6.5%"));
 
   const [inputVisible, setInputVisible] = useState(false);
 
   const toggleInput = () => {
+    setShowIntialSearchRecommendation(false);
     setSearchQuery("");
     setSearchRecommendation([]);
     width.value =
@@ -62,6 +72,8 @@ const SearchBar = ({
                 placeholderTextColor={"#ffffffad"}
                 value={seacrhQuery}
                 onChangeText={(text) => setSearchQuery(text)}
+                onFocus={() => setShowIntialSearchRecommendation(true)}
+                onBlur={() => setShowIntialSearchRecommendation(false)}
               />
             </Animated.View>
           )}
@@ -74,26 +86,24 @@ const SearchBar = ({
           </TouchableOpacity>
         </Animated.View>
       </Animated.View>
-      {searchAutocomplete.length && (
-        <SearchRecommendationList
-          data={searchRecommendation}
-          setForecastCity={setForecastCity}
-          setSearchQuery={setSearchQuery}
-          setSearchRecommendation={setSearchRecommendation}
-          onPress={toggleInput}
-        />
-      )}
+      <SearchRecommendationList
+        data={searchRecommendation}
+        setForecastCity={setForecastCity}
+        setSearchQuery={setSearchQuery}
+        setSearchRecommendation={setSearchRecommendation}
+        onPress={toggleInput}
+      />
     </>
   );
 };
 
 const styles = StyleSheet.create({
   firstContainer: {
-    borderRadius: 50,
     alignItems: "flex-end",
     justifyContent: "center",
     height: hp("8%"),
-    paddingHorizontal: wp("5%"),
+    width: wp("90%"),
+    alignSelf: "center",
   },
   container: {
     borderRadius: 50,
