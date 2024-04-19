@@ -1,13 +1,9 @@
 import {
-  FlatList,
-  KeyboardAvoidingView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
-import React, { memo, useRef, useState } from "react";
+import React, { memo,  useState } from "react";
 import Animated, {
   FadeInDown,
   FadeInLeft,
@@ -20,7 +16,7 @@ import {
 } from "react-native-responsive-screen";
 import { AntDesign } from "@expo/vector-icons";
 
-import SearchRecommendationList from "./searchRecommendationList";
+import SearchRecommendationList from "./SearchRecommendationList";
 
 const SearchBar = ({
   seacrhQuery,
