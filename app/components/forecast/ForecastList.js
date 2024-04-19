@@ -25,7 +25,7 @@ const ForecastList = () => {
     (item) => {
       const nowTime = new Date().getHours();
       const listTime = new Date(item?.time).getHours();
-      return listTime >= nowTime;
+      // return listTime >= nowTime;
     }
   );
 

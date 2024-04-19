@@ -27,9 +27,10 @@ const SearchBar = ({
   setSearchQuery,
   setSearchRecommendation,
   searchRecommendation,
-  searchAutocomplete,
   setForecastCity,
   setShowIntialSearchRecommendation,
+  setCurrentCity,
+  setIntialSearchRecommendation
 }) => {
   const width = useSharedValue(hp("6.5%"));
 
@@ -92,6 +93,8 @@ const SearchBar = ({
         setSearchQuery={setSearchQuery}
         setSearchRecommendation={setSearchRecommendation}
         onPress={toggleInput}
+        setCurrentCity={setCurrentCity}
+        setIntialSearchRecommendation={setIntialSearchRecommendation}
       />
     </>
   );

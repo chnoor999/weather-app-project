@@ -1,11 +1,4 @@
-import {
-  FlatList,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { memo, useEffect } from "react";
 import {
   widthPercentageToDP as wp,
@@ -13,6 +6,11 @@ import {
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
+import { getCurrentCity } from "../../utils/location";
+import { Entypo } from "@expo/vector-icons";
+
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const searchRecommendationList = ({
   data,
@@ -20,18 +18,30 @@ const searchRecommendationList = ({
   setSearchQuery,
   setSearchRecommendation,
   onPress,
+  setCurrentCity,
+  setIntialSearchRecommendation,
 }) => {
+  const dataLength = data.length;
   const height = useSharedValue(0);
 
-  const searchRecommendationListHandler = (item) => {
+  const searchRecommendationListHandler = async (item) => {
     if (item?.id === "useCurrentCity") {
-      console.log("cureent city");
-      return;
+      const currentCoords = await getCurrentCity();
+      AsyncStorage.setItem("currentCity", JSON.stringify(currentCoords));
+      setCurrentCity(currentCoords);
+      item = currentCoords;
     }
     setForecastCity(item.name + " " + item.country);
     setSearchQuery("");
     setSearchRecommendation([]);
     onPress();
+    setIntialSearchRecommendation((pre) => {
+      if (pre.some((mapItem) => mapItem.id === item.id)) {
+        return pre;
+      } else {
+        return [{ ...item, type: "recent" }, ...pre];
+      }
+    });
   };
 
   const recommentdationLength = data.length;
@@ -42,38 +52,48 @@ const searchRecommendationList = ({
     });
   }, [recommentdationLength]);
 
-  // const a = new Date().toLocaleString("en-US", { timeZone: "America/Toronto" });
-  // const [datePart, timePart] = a.split(", ");
-  // const [month, day, year] = datePart.split("/");
-  // const [time, meridiem] = timePart.split(" ");
-  // const [hours, minutes, seconds] = time.split(":");
-  // const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
-  // const parsedDate = new Date(year, month - 1, day, adjustedHours, minutes, seconds);
-  
-  // console.log("Parsed Date:", parsedDate.getTime());
-
   return (
     <Animated.View style={[styles.container, { height }]}>
       {data &&
-        data?.map((item) => {
+        data?.map((item, index) => {
           return (
-            <TouchableOpacity
-            key={item.id}
-              onPress={() => searchRecommendationListHandler(item)}
-            >
-              <Animated.View style={[styles.listContainer]}>
-                <Ionicons
-                  style={styles.icon}
-                  name="location-sharp"
-                  size={24}
-                  color="grey"
-                />
-                <View style={styles.textContainer}>
-                  <Text style={styles.listText}>{item.name},</Text>
-                  <Text style={styles.listText}> {item.country}</Text>
-                </View>
-              </Animated.View>
-            </TouchableOpacity>
+            <Swipeable renderRightActions={() => {}} key={item.id}>
+              <TouchableOpacity
+                onPress={() => searchRecommendationListHandler(item)}
+              >
+                <Animated.View style={[styles.listContainer]}>
+                  <Ionicons
+                    style={styles.icon}
+                    name="location-sharp"
+                    size={24}
+                    color="grey"
+                  />
+                  <View style={styles.textContainer}>
+                    <Text numberOfLines={1} style={styles.listText}>
+                      {item.name}
+                      {item.type !== "currentLocation" && ","}
+                    </Text>
+                    <Text numberOfLines={1} style={styles.listText}>
+                      {" "}
+                      {item.country}
+                    </Text>
+                  </View>
+                  {item.type == "recent" && (
+                    <Entypo
+                      name="back-in-time"
+                      size={hp("2.2%")}
+                      color="grey"
+                    />
+                  )}
+                  {item.type == "currentLocation" && (
+                    <Entypo name="location" size={hp("2.2%")} color="grey" />
+                  )}
+                </Animated.View>
+              </TouchableOpacity>
+              {dataLength - 1 != index && (
+                <View style={styles.ItemSeparatorComponent} />
+              )}
+            </Swipeable>
           );
         })}
     </Animated.View>
@@ -100,12 +120,11 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: hp("1.5%"),
   },
-  textContainer:{
+  textContainer: {
     flexDirection: "row",
-    // borderWidth:1,
-    flex:1,
-    maxWidth:wp("72%"),
-    overflow:"hidden",
+    flex: 1,
+    maxWidth: wp("72%"),
+    overflow: "hidden",
   },
   listText: {
     fontSize: hp("2%"),

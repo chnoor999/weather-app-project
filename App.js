@@ -2,11 +2,12 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ForeCastDataContextProvider } from "./app/store/forecastData-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 const Stack = createNativeStackNavigator();
 
 import HomeScreen from "./app/screens/HomeScreen";
 import Next7DaysScreen from "./app/screens/Next7DaysForeCastScreen";
-import { ForeCastDataContextProvider } from "./app/store/forecastData-context";
 
 const Root = () => {
   const [fontLoaded] = useFonts({
@@ -33,12 +34,14 @@ export default function App() {
   return (
     <ForeCastDataContextProvider>
       <NavigationContainer>
-        <StatusBar
-          barStyle={"light-content"}
-          backgroundColor={"transparent"}
-          translucent={true}
-        />
-        <Root />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar
+            barStyle={"light-content"}
+            backgroundColor={"transparent"}
+            translucent={true}
+          />
+          <Root />
+        </GestureHandlerRootView>
       </NavigationContainer>
     </ForeCastDataContextProvider>
   );

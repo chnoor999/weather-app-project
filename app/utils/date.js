@@ -41,3 +41,33 @@ export const formatTime = (time) => {
 
   return timeString;
 };
+
+// const a = new Date().toLocaleString("en-US", { timeZone: "America/Toronto" });
+// const [datePart, timePart] = a.split(", ");
+// const [month, day, year] = datePart.split("/");
+// const [time, meridiem] = timePart.split(" ");
+// const [hours, minutes, seconds] = time.split(":");
+// const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
+// const parsedDate = new Date(year, month - 1, day, adjustedHours, minutes, seconds);
+
+// console.log("Parsed Date:", parsedDate.getTime());
+export const matchRegionDateToCurrentDate = (timeZone) => {
+  const a = new Date().toLocaleString("en-US", { timeZone });
+  const [datePart, timePart] = a.split(", ");
+  const [month, day, year] = datePart.split("/");
+  const [time, meridiem] = timePart.split(" ");
+  const [hours, minutes, seconds] = time.split(":");
+  const adjustedHours = meridiem === "PM" ? parseInt(hours, 10) + 12 : hours;
+  const parsedDate = new Date(
+    year,
+    month - 1,
+    day,
+    adjustedHours,
+    minutes,
+    seconds
+  );
+
+  const currentDate = new Date();
+
+  const match = parsedDate >= currentDate;
+};
