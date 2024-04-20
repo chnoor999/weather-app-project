@@ -25,10 +25,21 @@ const SearchRecommendationList = ({
 
   const searchRecommendationListHandler = async (item) => {
     if (item?.id === "useCurrentCity") {
-      const currentCoords = await getCurrentCity();
-      AsyncStorage.setItem("currentCity", JSON.stringify(currentCoords));
-      setCurrentCity(currentCoords);
-      item = currentCoords;
+      try {
+        const currentCoords = await getCurrentCity();
+        if (!currentCoords) {
+          return;
+        }
+        AsyncStorage.setItem("currentCity", JSON.stringify(currentCoords));
+        setCurrentCity(currentCoords);
+        item = currentCoords;
+      } catch (err) {
+        Alert.alert(
+          "Error",
+          "An error occurred while getting current city. Please try again later."
+        );
+        return;
+      }
     }
     setForecastCity(item.name + " " + item.country);
     setSearchQuery("");
@@ -66,7 +77,10 @@ const SearchRecommendationList = ({
               item={item}
               index={index}
               dataLength={dataLength}
-              onPress={() => searchRecommendationListHandler(item)}
+              onPress={() =>
+                item.id != "searchError" &&
+                searchRecommendationListHandler(item)
+              }
               key={item?.id}
               onSwipeableWillOpen={() => deleteSearchHistory(item?.id)}
               renderRightActions={() =>

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { getForecast, getSearchRecommendation } from "../utils/weather";
 import { useForecastData } from "../store/forecastData-context";
@@ -28,23 +28,38 @@ export default function HomeScreen() {
   const [showIntialSearchRecommendation, setShowIntialSearchRecommendation] =
     useState(false);
   const [currentCity, setCurrentCity] = useState("");
+  const [searchError, setSearchError] = useState([]);
 
   const forecastHandler = async (cityName) => {
-    setIsLoading(true);
-    const res = await getForecast(cityName);
-    setData(res);
-    setAppIsready(true);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const res = await getForecast(cityName);
+      setData(res);
+      setAppIsready(true);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(
+        "Error Occured",
+        "check internet connection and Try Again Later"
+      );
+    }
   };
 
   const fetchCurrentCity = async () => {
-    let res = await AsyncStorage.getItem("currentCity");
-    if (res) {
-      res = JSON.parse(res);
-      setForecastCity(`${res.name}, ${res.country}`);
-    } else {
-      const currentCoords = await getCurrentCity();
-      setForecastCity(`${currentCoords.name}, ${currentCoords.country}`);
+    try {
+      let res = await AsyncStorage.getItem("currentCity");
+      if (res) {
+        res = JSON.parse(res);
+        setForecastCity(`${res.name}, ${res.country}`);
+      } else {
+        const currentCoords = await getCurrentCity();
+        if (!currentCoords) {
+          return;
+        }
+        setForecastCity(`${currentCoords.name}, ${currentCoords.country}`);
+      }
+    } catch (err) {
+      alert("Error occured Try Agian Later");
     }
   };
 
@@ -61,7 +76,7 @@ export default function HomeScreen() {
       const res = await getSearchRecommendation(seacrhText);
       setSearchRecommendation(res);
     } catch (err) {
-      console.log(err.response.data);
+      setSearchError([{ id: "searchError", name: "no results found" }]);
     }
   };
 
@@ -100,7 +115,11 @@ export default function HomeScreen() {
         setSearchQuery={setSearchQuery}
         setSearchRecommendation={setSearchRecommendation}
         searchRecommendation={
-          seacrhQuery
+          seacrhQuery.length >= 1 &&
+          searchRecommendation.length == 0 &&
+          searchError.length
+            ? searchError
+            : seacrhQuery
             ? searchRecommendation
             : showIntialSearchRecommendation && intialsearchRecommendation
         }

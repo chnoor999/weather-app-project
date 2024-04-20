@@ -1,23 +1,46 @@
+import { Alert, Linking } from "react-native";
 import * as Location from "expo-location";
-import { Alert } from "react-native";
 
 export const getCurrentCity = async () => {
-  const permission = await Location.requestForegroundPermissionsAsync();
-  if (!permission.granted) {
-    Alert.alert();
-    return;
-  }
-  const response = await Location.getCurrentPositionAsync();
-  const reverseGeocodeResponse = await Location.reverseGeocodeAsync({
-    latitude: response.coords.latitude,
-    longitude: response.coords.longitude,
-  });
-  const currentCity = {
-    id:"useCurrentCity",
-    name: reverseGeocodeResponse[0].city,
-    country: reverseGeocodeResponse[0].country,
-  };
-  // reverseGeocodeResponse[0].city + ", " + reverseGeocodeResponse[0].country;
+  try {
+    const permission = await Location.requestForegroundPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        "Permission not granted",
+        "Please grant permission to access location.",
+        [{ text: "Go to Setting", onPress: () => Linking.openSettings() }]
+      );
+      return null;
+    }
 
-  return currentCity;
+    const response = await Location.getCurrentPositionAsync();
+    const { latitude, longitude } = response.coords;
+
+    const reverseGeocodeResponse = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
+
+    if (reverseGeocodeResponse.length === 0) {
+      Alert.alert(
+        "Location not found",
+        "Unable to determine current location."
+      );
+      return null;
+    }
+
+    const currentCity = {
+      id: "useCurrentCity",
+      name: reverseGeocodeResponse[0].city,
+      country: reverseGeocodeResponse[0].country,
+    };
+
+    return currentCity;
+  } catch (error) {
+    Alert.alert(
+      "Error",
+      "An error occurred while getting current city. Please try again later."
+    );
+    return null;
+  }
 };

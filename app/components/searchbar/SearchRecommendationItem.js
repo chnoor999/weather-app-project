@@ -33,7 +33,9 @@ const SearchRecommendationItem = ({
             <View style={styles.textContainer}>
               <Text numberOfLines={1} style={styles.listText}>
                 {item.name}
-                {item.type !== "currentLocation" && ","}
+                {item.type !== "currentLocation" &&
+                  item.id != "searchError" &&
+                  ","}
               </Text>
               <Text numberOfLines={1} style={styles.listText}>
                 {" "}
