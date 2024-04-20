@@ -5,8 +5,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-import Animated from "react-native-reanimated";
-
 const SearchRecommendationItem = ({
   item,
   index,
@@ -23,7 +21,7 @@ const SearchRecommendationItem = ({
         overshootRight={false}
       >
         <TouchableOpacity onPress={onPress}>
-          <Animated.View style={[styles.listContainer]}>
+          <View style={[styles.listContainer]}>
             <Ionicons
               style={styles.icon}
               name="location-sharp"
@@ -32,14 +30,13 @@ const SearchRecommendationItem = ({
             />
             <View style={styles.textContainer}>
               <Text numberOfLines={1} style={styles.listText}>
-                {item.name}
-                {item.type !== "currentLocation" &&
-                  item.id != "searchError" &&
-                  ","}
-              </Text>
-              <Text numberOfLines={1} style={styles.listText}>
-                {" "}
-                {item.country}
+                <Text>
+                  {item.name}
+                  {item.type !== "currentLocation" &&
+                    item.id != "searchError" &&
+                    ","}
+                </Text>
+                <Text> {item.country}</Text>
               </Text>
             </View>
             {item.type == "recent" && (
@@ -48,7 +45,7 @@ const SearchRecommendationItem = ({
             {item.type == "currentLocation" && (
               <Entypo name="location" size={hp("2.2%")} color="grey" />
             )}
-          </Animated.View>
+          </View>
         </TouchableOpacity>
       </Swipeable>
       {dataLength - 1 != index && (

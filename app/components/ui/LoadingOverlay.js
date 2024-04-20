@@ -1,6 +1,8 @@
 import { StyleSheet, View } from "react-native";
-import * as Progress from "react-native-progress";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { memo } from "react";
+
+import * as Progress from "react-native-progress";
 import Screen from "../../screens/Screen";
 
 const LoadingOverlay = () => {
@@ -19,7 +21,7 @@ const LoadingOverlay = () => {
   );
 };
 
-export default LoadingOverlay;
+export default memo(LoadingOverlay);
 
 const styles = StyleSheet.create({
   container: {

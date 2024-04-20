@@ -1,16 +1,16 @@
-import { Alert, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { memo, useEffect, useState } from "react";
 import { getForecast, getSearchRecommendation } from "../utils/weather";
 import { useForecastData } from "../store/forecastData-context";
+import { getCurrentCity } from "../utils/location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "../components/searchbar/SearchBar";
 import ForeCast from "../components/forecast/ForeCast";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import Screen from "./Screen";
-import { getCurrentCity } from "../utils/location";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const { setData } = useForecastData();
 
   const [seacrhQuery, setSearchQuery] = useState("");
@@ -23,25 +23,20 @@ export default function HomeScreen() {
     },
   ]);
   const [forecastCity, setForecastCity] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [appIsReady, setAppIsready] = useState(false);
   const [showIntialSearchRecommendation, setShowIntialSearchRecommendation] =
     useState(false);
-  const [currentCity, setCurrentCity] = useState("");
   const [searchError, setSearchError] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const forecastHandler = async (cityName) => {
     try {
       setIsLoading(true);
       const res = await getForecast(cityName);
       setData(res);
-      setAppIsready(true);
       setIsLoading(false);
     } catch (err) {
-      Alert.alert(
-        "Error Occured",
-        "check internet connection and Try Again Later"
-      );
+      Alert.alert("Fail", "Fail to fetch Weather Forecast, Try Again Later!");
     }
   };
 
@@ -59,7 +54,7 @@ export default function HomeScreen() {
         setForecastCity(`${currentCoords.name}, ${currentCoords.country}`);
       }
     } catch (err) {
-      alert("Error occured Try Agian Later");
+      Alert.alert("Error", "Error occured, Try Agian Later!");
     }
   };
 
@@ -74,7 +69,9 @@ export default function HomeScreen() {
   const searchAutocomplete = async (seacrhText) => {
     try {
       const res = await getSearchRecommendation(seacrhText);
-      setSearchRecommendation(res);
+      if (res) {
+        setSearchRecommendation(res);
+      }
     } catch (err) {
       setSearchError([{ id: "searchError", name: "no results found" }]);
     }
@@ -90,9 +87,13 @@ export default function HomeScreen() {
 
   useEffect(() => {
     (async () => {
-      const res = await AsyncStorage.getItem("searchHistory");
-      if (res) {
-        setIntialSearchRecommendation(JSON.parse(res));
+      try {
+        const res = await AsyncStorage.getItem("searchHistory");
+        if (res) {
+          setIntialSearchRecommendation(JSON.parse(res));
+        }
+      } catch (err) {
+        Alert.alert("Error", "Error occured, Try Agian Later!");
       }
     })();
   }, []);
@@ -104,7 +105,7 @@ export default function HomeScreen() {
     );
   }, [intialsearchRecommendation]);
 
-  if (isLoading || !appIsReady) {
+  if (isLoading) {
     return <LoadingOverlay />;
   }
 
@@ -126,12 +127,11 @@ export default function HomeScreen() {
         setForecastCity={setForecastCity}
         searchAutocomplete={searchAutocomplete}
         setShowIntialSearchRecommendation={setShowIntialSearchRecommendation}
-        setCurrentCity={setCurrentCity}
         setIntialSearchRecommendation={setIntialSearchRecommendation}
       />
       <ForeCast />
     </Screen>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+export default memo(HomeScreen);

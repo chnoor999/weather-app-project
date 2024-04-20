@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { memo, useEffect, useState } from "react";
+import { StyleSheet, Text } from "react-native";
+import { memo, useEffect, useState } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getCurrentRegionTimeDate } from "../../utils/date";
 import { useForecastData } from "../../store/forecastData-context";

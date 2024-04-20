@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { memo } from "react";
+import { memo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,

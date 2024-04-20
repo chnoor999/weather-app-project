@@ -6,7 +6,7 @@ import Animated, { FadeInRight } from "react-native-reanimated";
 const ForecastListItem = ({ time, temp, imageUrl, index }) => {
   return (
     <Animated.View
-      entering={FadeInRight.delay(100 * index)}
+      entering={FadeInRight.delay(100 * index).springify()}
       style={styles.container}
     >
       <Text style={styles.time}>{time}</Text>

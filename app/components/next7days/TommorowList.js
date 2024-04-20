@@ -1,11 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React, { memo } from "react";
-import ForecastDetail from "../forecast/ForecastDetail";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
+
+import ForecastDetail from "../forecast/ForecastDetail";
 
 const TommorowList = ({ conditionIcon, temp, conditionText, data, index }) => {
   return (

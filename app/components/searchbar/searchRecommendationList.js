@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import React, { memo, useEffect } from "react";
+import { Alert, StyleSheet } from "react-native";
+import React, { memo, useEffect, useMemo } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,10 +17,9 @@ const SearchRecommendationList = ({
   setSearchQuery,
   setSearchRecommendation,
   onPress,
-  setCurrentCity,
   setIntialSearchRecommendation,
 }) => {
-  const dataLength = data.length;
+  const dataLength = useMemo(() => data.length, [data]);
   const height = useSharedValue(0);
 
   const searchRecommendationListHandler = async (item) => {
@@ -31,12 +30,11 @@ const SearchRecommendationList = ({
           return;
         }
         AsyncStorage.setItem("currentCity", JSON.stringify(currentCoords));
-        setCurrentCity(currentCoords);
         item = currentCoords;
       } catch (err) {
         Alert.alert(
-          "Error",
-          "An error occurred while getting current city. Please try again later."
+          "Failed",
+          "Fail to Fetch Current Location. Please try again later."
         );
         return;
       }
@@ -60,13 +58,13 @@ const SearchRecommendationList = ({
     });
   };
 
-  const recommentdationLength = data.length;
+  const recommendationLength = useMemo(() => data.length, [data]);
 
   useEffect(() => {
-    height.value = withTiming(hp("5.5%") * recommentdationLength, {
+    height.value = withTiming(hp("5.5%") * recommendationLength, {
       duration: 250,
     });
-  }, [recommentdationLength]);
+  }, [recommendationLength]);
 
   return (
     <Animated.View style={[styles.container, { height }]}>

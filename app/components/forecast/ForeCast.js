@@ -14,8 +14,8 @@ import DateAndTime from "./DateAndTime";
 const ForeCast = () => {
   const { data } = useForecastData();
 
-  const [lineNoWeatherText, setLineNoWeatherText] = useState(1);
   const [lineNoCityCountryText, setLineNoCityCountryText] = useState(1);
+  const [lineNoWeatherText, setLineNoWeatherText] = useState(1);
 
   return (
     <View style={styles.container}>

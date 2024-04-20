@@ -1,5 +1,6 @@
-import { useFonts } from "expo-font";
 import { Alert, StatusBar } from "react-native";
+import { useEffect } from "react";
+import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ForeCastDataContextProvider } from "./app/store/forecastData-context";
@@ -9,7 +10,6 @@ const Stack = createNativeStackNavigator();
 import NetInfo from "@react-native-community/netinfo";
 import HomeScreen from "./app/screens/HomeScreen";
 import Next7DaysScreen from "./app/screens/Next7DaysForeCastScreen";
-import { useEffect } from "react";
 
 const Root = () => {
   const [fontLoaded] = useFonts({

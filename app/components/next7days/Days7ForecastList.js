@@ -1,19 +1,25 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { memo } from "react";
+import { FlatList, StyleSheet } from "react-native";
+import { memo, useMemo } from "react";
 import { useForecastData } from "../../store/forecastData-context";
-import Days7ForecastItem from "./Days7ForecastItem";
 import { ConvertDateToDay } from "../../utils/date";
+
+import Days7ForecastItem from "./Days7ForecastItem";
 import TommorowList from "./TommorowList";
 
 const Days7ForecastList = () => {
   const { data } = useForecastData();
 
-  const filterNext7DaysForecast = data.forecast.forecastday.filter((item) => {
-    const currentDate = new Date(data.location.localtime).getDate();
-    const RemoveCurrentDateList = currentDate != new Date(item.date).getDate();
+  const filterNext7DaysForecast = useMemo(
+    () =>
+      data.forecast.forecastday.filter((item) => {
+        const currentDate = new Date(data.location.localtime).getDate();
+        const RemoveCurrentDateList =
+          currentDate != new Date(item.date).getDate();
 
-    return RemoveCurrentDateList;
-  });
+        return RemoveCurrentDateList;
+      }),
+    [data]
+  );
 
   return (
     <FlatList
@@ -37,11 +43,7 @@ const Days7ForecastList = () => {
             index={index}
             conditionText={item?.day?.condition?.text}
             conditionIcon={item?.day?.condition?.icon}
-            day={
-              checkTommorowList
-                ? "Tommorrow"
-                : ConvertDateToDay(item?.date)
-            }
+            day={checkTommorowList ? "Tommorrow" : ConvertDateToDay(item?.date)}
             temp={item?.day?.avgtemp_c}
           />
         );

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,7 +17,7 @@ const Days7ForecastItem = ({
 
   return (
     <Animated.View
-      entering={FadeInDown.delay(100 * (index+1))}
+      entering={FadeInDown.delay(100 * (index + 1))}
       style={styles.listContainer}
     >
       <Text style={[styles.text, styles.day]}>{day}</Text>

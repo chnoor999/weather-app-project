@@ -39,7 +39,7 @@ export const getCurrentCity = async () => {
   } catch (error) {
     Alert.alert(
       "Error",
-      "An error occurred while getting current city. Please try again later."
+      "An error occurred while getting current Location. Please try again later."
     );
     return null;
   }

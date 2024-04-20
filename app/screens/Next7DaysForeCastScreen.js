@@ -1,12 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, View } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+
 import Screen from "../screens/Screen";
 import Days7ForecastList from "../components/next7days/Days7ForecastList";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import BackButton from "../components/ui/BackButton";
+import { memo } from "react";
 
 const Next7DaysForeCastScreen = () => {
   return (
@@ -19,7 +17,7 @@ const Next7DaysForeCastScreen = () => {
   );
 };
 
-export default Next7DaysForeCastScreen;
+export default memo(Next7DaysForeCastScreen);
 
 const styles = StyleSheet.create({
   container: {
