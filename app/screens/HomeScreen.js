@@ -51,6 +51,7 @@ const HomeScreen = () => {
         if (!currentCoords) {
           return;
         }
+        AsyncStorage.setItem("currentCity", JSON.stringify(currentCoords));
         setForecastCity(`${currentCoords.name}, ${currentCoords.country}`);
       }
     } catch (err) {
