@@ -1,9 +1,5 @@
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import React, { memo,  useState } from "react";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import React, { memo, useCallback, useState } from "react";
 import Animated, {
   FadeInDown,
   FadeInLeft,
@@ -15,17 +11,17 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { AntDesign } from "@expo/vector-icons";
+import { debounce, wrap } from "lodash";
 
 import SearchRecommendationList from "./SearchRecommendationList";
 
 const SearchBar = ({
-  seacrhQuery,
   setSearchQuery,
   setSearchRecommendation,
   searchRecommendation,
   setForecastCity,
   setShowIntialSearchRecommendation,
-  setIntialSearchRecommendation
+  setIntialSearchRecommendation,
 }) => {
   const width = useSharedValue(hp("6.5%"));
 
@@ -46,8 +42,15 @@ const SearchBar = ({
     setInputVisible((pre) => !pre);
   };
 
+  const handleChangeSearchQuery = useCallback(
+    debounce((text) => {
+      setSearchQuery(text);
+    }, 500),
+    []
+  );
+
   return (
-    <>
+    <View style={styles.wraper}>
       <Animated.View
         entering={FadeInDown.delay(100)}
         style={[styles.firstContainer]}
@@ -66,8 +69,7 @@ const SearchBar = ({
                 style={styles.input}
                 placeholder="Search city"
                 placeholderTextColor={"#ffffffad"}
-                value={seacrhQuery}
-                onChangeText={(text) => setSearchQuery(text)}
+                onChangeText={(text) => handleChangeSearchQuery(text)}
                 onFocus={() => setShowIntialSearchRecommendation(true)}
                 onBlur={() => setShowIntialSearchRecommendation(false)}
               />
@@ -82,19 +84,26 @@ const SearchBar = ({
           </TouchableOpacity>
         </Animated.View>
       </Animated.View>
-      <SearchRecommendationList
-        data={searchRecommendation}
-        setForecastCity={setForecastCity}
-        setSearchQuery={setSearchQuery}
-        setSearchRecommendation={setSearchRecommendation}
-        onPress={toggleInput}
-        setIntialSearchRecommendation={setIntialSearchRecommendation}
-      />
-    </>
+      <View style={styles.recommendationContainer}>
+        <SearchRecommendationList
+          data={searchRecommendation}
+          setForecastCity={setForecastCity}
+          setSearchQuery={setSearchQuery}
+          setSearchRecommendation={setSearchRecommendation}
+          onPress={toggleInput}
+          setIntialSearchRecommendation={setIntialSearchRecommendation}
+        />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wraper: {
+    borderWidth: 1,
+    position: "relative",
+    zIndex:10
+  },
   firstContainer: {
     alignItems: "flex-end",
     justifyContent: "center",
@@ -120,6 +129,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#ffffff56",
     padding: hp("1.5%"),
+  },
+  recommendationContainer: {
+    borderWidth: 1,
+    position: "absolute",
+    zIndex: 10,
+    top: hp(8),
   },
 });
 

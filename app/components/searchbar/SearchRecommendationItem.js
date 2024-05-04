@@ -25,7 +25,7 @@ const SearchRecommendationItem = ({
             <Ionicons
               style={styles.icon}
               name="location-sharp"
-              size={24}
+              size={hp("2.5%")}
               color="grey"
             />
             <View style={styles.textContainer}>
@@ -60,10 +60,12 @@ export default memo(SearchRecommendationItem);
 const styles = StyleSheet.create({
   listContainer: {
     flexDirection: "row",
-    paddingVertical: hp("1.2%"),
+    // paddingVertical: hp("1.2%"),
     paddingHorizontal: hp("1.5%"),
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#e1e1e1ff",
+    height:hp(5.5)
   },
   icon: {
     marginRight: hp("1.5%"),

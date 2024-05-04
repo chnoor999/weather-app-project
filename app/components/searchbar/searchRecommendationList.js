@@ -58,13 +58,12 @@ const SearchRecommendationList = ({
     });
   };
 
-  const recommendationLength = useMemo(() => data.length, [data]);
 
   useEffect(() => {
-    height.value = withTiming(hp("5.5%") * recommendationLength, {
+    height.value = withTiming(hp("5.5%") * dataLength, {
       duration: 250,
     });
-  }, [recommendationLength]);
+  }, [dataLength]);
 
   return (
     <Animated.View style={[styles.container, { height }]}>
@@ -93,13 +92,10 @@ const SearchRecommendationList = ({
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    top: hp("11.5%"),
     width: wp("90%"),
     marginHorizontal: wp("5%"),
     backgroundColor: "#e1e1e1ff",
     borderRadius: 15,
-    zIndex: 10,
     overflow: "hidden",
   },
 });

@@ -8,10 +8,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { getForecast } from "./app/utils/weather";
 const Stack = createNativeStackNavigator();
 
+import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import HomeScreen from "./app/screens/HomeScreen";
 import Next7DaysScreen from "./app/screens/Next7DaysForeCastScreen";
-import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 Notifications.setNotificationHandler({
@@ -35,6 +35,8 @@ const Root = () => {
       const weather = await getForecast(currentCity.name);
 
       if (weather) {
+        await Notifications.cancelAllScheduledNotificationsAsync();
+
         await Notifications.scheduleNotificationAsync({
           content: {
             title: `${weather.current.temp_c}° in ${weather.location.name}`,
