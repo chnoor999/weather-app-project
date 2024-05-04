@@ -1,5 +1,5 @@
 import { Alert, StyleSheet } from "react-native";
-import React, { memo, useEffect, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -14,15 +14,13 @@ import DeleteListButton from "./DeleteListButton";
 const SearchRecommendationList = ({
   data,
   setForecastCity,
-  setSearchQuery,
-  setSearchRecommendation,
   onPress,
   setIntialSearchRecommendation,
 }) => {
   const dataLength = useMemo(() => data.length, [data]);
   const height = useSharedValue(0);
 
-  const searchRecommendationListHandler = async (item) => {
+  const searchRecommendationListHandler = useCallback(async (item) => {
     if (item?.id === "useCurrentCity") {
       try {
         const currentCoords = await getCurrentCity();
@@ -40,8 +38,6 @@ const SearchRecommendationList = ({
       }
     }
     setForecastCity(item.name + " " + item.country);
-    setSearchQuery("");
-    setSearchRecommendation([]);
     onPress();
     setIntialSearchRecommendation((pre) => {
       if (pre.some((mapItem) => mapItem.id === item.id)) {
@@ -50,7 +46,7 @@ const SearchRecommendationList = ({
         return [{ ...item, type: "recent" }, ...pre];
       }
     });
-  };
+  }, []);
 
   const deleteSearchHistory = (id) => {
     setIntialSearchRecommendation((pre) => {
@@ -58,9 +54,8 @@ const SearchRecommendationList = ({
     });
   };
 
-
   useEffect(() => {
-    height.value = withTiming(hp("5.5%") * dataLength, {
+    height.value = withTiming(hp("5.6%") * dataLength, {
       duration: 250,
     });
   }, [dataLength]);

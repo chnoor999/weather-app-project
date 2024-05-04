@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { memo } from "react";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import * as Progress from "react-native-progress";
 import Screen from "../../screens/Screen";
@@ -28,6 +28,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    height: "100%",
   },
 });

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { memo } from "react";
+import { memo } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Swipeable } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
@@ -60,12 +60,11 @@ export default memo(SearchRecommendationItem);
 const styles = StyleSheet.create({
   listContainer: {
     flexDirection: "row",
-    // paddingVertical: hp("1.2%"),
     paddingHorizontal: hp("1.5%"),
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#e1e1e1ff",
-    height:hp(5.5)
+    height: hp(5.5),
   },
   icon: {
     marginRight: hp("1.5%"),

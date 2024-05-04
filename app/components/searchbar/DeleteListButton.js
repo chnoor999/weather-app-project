@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import React, { memo } from "react";
+import { memo } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,

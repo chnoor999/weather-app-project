@@ -1,5 +1,11 @@
-import React, { memo, useMemo } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { memo, useMemo } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FadeInDown } from "react-native-reanimated";
@@ -30,18 +36,12 @@ const ForecastList = () => {
         entering={FadeInDown.delay(450)}
         style={styles.labelContainer}
       >
-        <Text style={styles.label}>
-          Today
-        </Text>
+        <Text style={styles.label}>Today</Text>
         <TouchableOpacity
           style={styles.next7DaysContainer}
           onPress={() => navigation.navigate("next7Days")}
         >
-          <Text
-            style={styles.next7Day}
-          >
-            Next 7 days
-          </Text>
+          <Text style={styles.next7Day}>Next 7 days</Text>
           <MaterialIcons
             name="navigate-next"
             style={styles.nextIcon}

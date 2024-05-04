@@ -10,11 +10,6 @@ const DateAndTime = () => {
   const [formatedTime, setFormatedTime] = useState("");
 
   useEffect(() => {
-    if (!formatedTime) {
-      setFormatedTime(getCurrentRegionTimeDate(data?.location?.tz_id));
-      return;
-    }
-
     setFormatedTime(getCurrentRegionTimeDate(data?.location?.tz_id));
   }, [data]);
 

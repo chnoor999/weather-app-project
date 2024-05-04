@@ -1,5 +1,5 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import React, { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import Animated, {
   FadeInDown,
   FadeInLeft,
@@ -11,7 +11,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { AntDesign } from "@expo/vector-icons";
-import { debounce, wrap } from "lodash";
+import { debounce } from "lodash";
 
 import SearchRecommendationList from "./SearchRecommendationList";
 
@@ -27,7 +27,7 @@ const SearchBar = ({
 
   const [inputVisible, setInputVisible] = useState(false);
 
-  const toggleInput = () => {
+  const toggleInput = useCallback(() => {
     setShowIntialSearchRecommendation(false);
     setSearchQuery("");
     setSearchRecommendation([]);
@@ -40,7 +40,7 @@ const SearchBar = ({
             duration: 200,
           });
     setInputVisible((pre) => !pre);
-  };
+  }, []);
 
   const handleChangeSearchQuery = useCallback(
     debounce((text) => {
@@ -100,9 +100,8 @@ const SearchBar = ({
 
 const styles = StyleSheet.create({
   wraper: {
-    borderWidth: 1,
     position: "relative",
-    zIndex:10
+    zIndex: 10,
   },
   firstContainer: {
     alignItems: "flex-end",
@@ -131,9 +130,7 @@ const styles = StyleSheet.create({
     padding: hp("1.5%"),
   },
   recommendationContainer: {
-    borderWidth: 1,
     position: "absolute",
-    zIndex: 10,
     top: hp(8),
   },
 });

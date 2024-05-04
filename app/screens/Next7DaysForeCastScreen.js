@@ -1,10 +1,10 @@
 import { StyleSheet, View } from "react-native";
+import { memo } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import Screen from "../screens/Screen";
 import Days7ForecastList from "../components/next7days/Days7ForecastList";
 import BackButton from "../components/ui/BackButton";
-import { memo } from "react";
 
 const Next7DaysForeCastScreen = () => {
   return (

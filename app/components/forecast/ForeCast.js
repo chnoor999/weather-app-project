@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,

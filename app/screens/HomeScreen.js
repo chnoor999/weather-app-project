@@ -15,6 +15,11 @@ const HomeScreen = () => {
 
   const [seacrhQuery, setSearchQuery] = useState("");
   const [searchRecommendation, setSearchRecommendation] = useState([]);
+  const [forecastCity, setForecastCity] = useState("");
+  const [searchError, setSearchError] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showIntialSearchRecommendation, setShowIntialSearchRecommendation] =
+    useState(false);
   const [intialsearchRecommendation, setIntialSearchRecommendation] = useState([
     {
       type: "currentLocation",
@@ -22,12 +27,6 @@ const HomeScreen = () => {
       name: "Use Current Location",
     },
   ]);
-  const [forecastCity, setForecastCity] = useState("");
-  const [showIntialSearchRecommendation, setShowIntialSearchRecommendation] =
-    useState(false);
-  const [searchError, setSearchError] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(true);
 
   const forecastHandler = async (cityName) => {
     try {
@@ -113,9 +112,11 @@ const HomeScreen = () => {
   return (
     <Screen>
       <SearchBar
-        seacrhQuery={seacrhQuery}
         setSearchQuery={setSearchQuery}
         setSearchRecommendation={setSearchRecommendation}
+        setForecastCity={setForecastCity}
+        setShowIntialSearchRecommendation={setShowIntialSearchRecommendation}
+        setIntialSearchRecommendation={setIntialSearchRecommendation}
         searchRecommendation={
           seacrhQuery.length >= 1 &&
           searchRecommendation.length == 0 &&
@@ -125,10 +126,6 @@ const HomeScreen = () => {
             ? searchRecommendation
             : showIntialSearchRecommendation && intialsearchRecommendation
         }
-        setForecastCity={setForecastCity}
-        searchAutocomplete={searchAutocomplete}
-        setShowIntialSearchRecommendation={setShowIntialSearchRecommendation}
-        setIntialSearchRecommendation={setIntialSearchRecommendation}
       />
       <ForeCast />
     </Screen>
