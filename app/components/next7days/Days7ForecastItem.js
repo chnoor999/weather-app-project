@@ -1,10 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import { memo, useState } from "react";
+import { memo } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
+
+import LineNumberedText from "../ui/LineNumberedText";
 
 const Days7ForecastItem = ({
   day,
@@ -13,8 +15,6 @@ const Days7ForecastItem = ({
   index,
   conditionIcon,
 }) => {
-  const [conditionNumberOfLines, setConditionNumberOfLines] = useState(1);
-
   return (
     <Animated.View
       entering={FadeInDown.delay(100 * (index + 1))}
@@ -27,15 +27,9 @@ const Days7ForecastItem = ({
             style={styles.image}
             source={{ uri: "https://" + conditionIcon }}
           />
-          <Text
-            numberOfLines={conditionNumberOfLines}
-            onPress={() =>
-              setConditionNumberOfLines((pre) => (pre == 1 ? 0 : 1))
-            }
-            style={[styles.text, styles.condition]}
-          >
+          <LineNumberedText style={[styles.text, styles.condition]}>
             {conditionText}
-          </Text>
+          </LineNumberedText>
         </View>
         <Text style={[styles.text, styles.temp]}>{temp}&#176;</Text>
       </View>

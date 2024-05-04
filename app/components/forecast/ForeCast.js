@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { memo, useState } from "react";
+import { memo } from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -10,26 +10,19 @@ import { useForecastData } from "../../store/forecastData-context";
 import ForecastDetail from "./ForecastDetail";
 import ForecastList from "./ForecastList";
 import DateAndTime from "./DateAndTime";
+import LineNumberedText from "../ui/LineNumberedText";
 
 const ForeCast = () => {
   const { data } = useForecastData();
 
-  const [lineNoCityCountryText, setLineNoCityCountryText] = useState(1);
-  const [lineNoWeatherText, setLineNoWeatherText] = useState(1);
-
   return (
     <View style={styles.container}>
-      <Animated.Text
-        numberOfLines={lineNoCityCountryText}
-        entering={FadeInDown.delay(150)}
-        style={styles.location}
-        onPress={() => setLineNoCityCountryText((pre) => (pre === 1 ? 0 : 1))}
-      >
+      <LineNumberedText delay={150} style={styles.location}>
         {data?.location?.name},
         <Text style={styles.locationCountry}>
           {" " + data?.location?.country}
         </Text>
-      </Animated.Text>
+      </LineNumberedText>
       <DateAndTime />
       <View style={styles.imageContainer}>
         <Animated.Image
@@ -42,14 +35,9 @@ const ForeCast = () => {
         <Animated.Text entering={FadeInDown.delay(300)} style={styles.degree}>
           {data?.current?.temp_c}&#176;
         </Animated.Text>
-        <Animated.Text
-          entering={FadeInDown.delay(350)}
-          style={styles.condition}
-          numberOfLines={lineNoWeatherText}
-          onPress={() => setLineNoWeatherText((pre) => (pre === 1 ? 0 : 1))}
-        >
+        <LineNumberedText delay={350} style={styles.condition}>
           {data?.current?.condition?.text}
-        </Animated.Text>
+        </LineNumberedText>
       </View>
       <ForecastDetail data={data} />
       <ForecastList />

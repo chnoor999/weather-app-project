@@ -7,6 +7,7 @@ import {
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import ForecastDetail from "../forecast/ForecastDetail";
+import LineNumberedText from "../ui/LineNumberedText";
 
 const TommorowList = ({ conditionIcon, temp, conditionText, data, index }) => {
   return (
@@ -22,7 +23,9 @@ const TommorowList = ({ conditionIcon, temp, conditionText, data, index }) => {
         <View style={styles.textContainer}>
           <Text style={styles.text}>Tommorow</Text>
           <Text style={[styles.text, styles.temp]}>{temp}&#176;</Text>
-          <Text style={styles.text}>{conditionText}</Text>
+          <LineNumberedText style={styles.text}>
+            {conditionText}
+          </LineNumberedText>
         </View>
       </View>
       <ForecastDetail isForNext7Days data={data} />
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     gap: hp("1%"),
+    width:wp(35)
   },
   text: {
     color: "#fff",
