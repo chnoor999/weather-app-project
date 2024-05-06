@@ -55,6 +55,7 @@ const ForecastList = () => {
           data={filteringListWithHours}
           horizontal
           showsHorizontalScrollIndicator={false}
+          keyExtractor={(_, index) => index.toString()}
           renderItem={({ item, index }) => {
             const nowTime = new Date(data.location.localtime).getHours();
             const listTime = new Date(item.time).getHours();

@@ -24,6 +24,7 @@ const Days7ForecastList = () => {
   return (
     <FlatList
       data={filterNext7DaysForecast}
+      keyExtractor={(_, index) => index.toString()}
       renderItem={({ item, index }) => {
         const tomorrowDate = new Date(data.location.localtime).getDate() + 1;
         const checkTommorowList =
