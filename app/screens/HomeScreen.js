@@ -126,6 +126,7 @@ const HomeScreen = () => {
             ? searchRecommendation
             : showIntialSearchRecommendation && intialsearchRecommendation
         }
+        showIntialSearchRecommendation={showIntialSearchRecommendation}
       />
       <ForeCast />
     </Screen>

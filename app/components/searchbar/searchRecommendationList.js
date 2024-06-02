@@ -16,6 +16,7 @@ const SearchRecommendationList = ({
   setForecastCity,
   onPress,
   setIntialSearchRecommendation,
+  showIntialSearchRecommendation,
 }) => {
   const dataLength = useMemo(() => data.length, [data]);
   const height = useSharedValue(0);
@@ -55,10 +56,16 @@ const SearchRecommendationList = ({
   };
 
   useEffect(() => {
+    height.value = withTiming(0, {
+      duration: 250,
+    });
+    
+    if (!showIntialSearchRecommendation) return;
+
     height.value = withTiming(hp("5.6%") * dataLength, {
       duration: 250,
     });
-  }, [dataLength]);
+  }, [dataLength, showIntialSearchRecommendation]);
 
   return (
     <Animated.View style={[styles.container, { height }]}>
