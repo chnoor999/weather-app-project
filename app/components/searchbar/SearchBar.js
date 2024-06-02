@@ -20,16 +20,16 @@ const SearchBar = ({
   setSearchRecommendation,
   searchRecommendation,
   setForecastCity,
-  setShowIntialSearchRecommendation,
-  setIntialSearchRecommendation,
-  showIntialSearchRecommendation
+  setShowInitialSearchRecommendation: setShowInitialSearchRecommendation,
+  setInitialSearchRecommendation: setInitialSearchRecommendation,
+  showInitialSearchRecommendation: showInitialSearchRecommendation
 }) => {
   const width = useSharedValue(hp("6.5%"));
 
   const [inputVisible, setInputVisible] = useState(false);
 
   const toggleInput = useCallback(() => {
-    setShowIntialSearchRecommendation(false);
+    setShowInitialSearchRecommendation(false);
     setSearchQuery("");
     setSearchRecommendation([]);
     width.value =
@@ -51,7 +51,7 @@ const SearchBar = ({
   );
 
   return (
-    <View style={styles.wraper}>
+    <View style={styles.wrapper}>
       <Animated.View
         entering={FadeInDown.delay(100)}
         style={[styles.firstContainer]}
@@ -71,8 +71,8 @@ const SearchBar = ({
                 placeholder="Search city"
                 placeholderTextColor={"#ffffffad"}
                 onChangeText={(text) => handleChangeSearchQuery(text)}
-                onFocus={() => setShowIntialSearchRecommendation(true)}
-                onBlur={() => setShowIntialSearchRecommendation(false)}
+                onFocus={() => setShowInitialSearchRecommendation(true)}
+                onBlur={() => setShowInitialSearchRecommendation(false)}
               />
             </Animated.View>
           )}
@@ -92,8 +92,8 @@ const SearchBar = ({
           setSearchQuery={setSearchQuery}
           setSearchRecommendation={setSearchRecommendation}
           onPress={toggleInput}
-          setIntialSearchRecommendation={setIntialSearchRecommendation}
-          showIntialSearchRecommendation={showIntialSearchRecommendation}
+          setInitialSearchRecommendation={setInitialSearchRecommendation}
+          showInitialSearchRecommendation={showInitialSearchRecommendation}
         />
       </View>
     </View>
@@ -101,7 +101,7 @@ const SearchBar = ({
 };
 
 const styles = StyleSheet.create({
-  wraper: {
+  wrapper: {
     position: "relative",
     zIndex: 10,
   },

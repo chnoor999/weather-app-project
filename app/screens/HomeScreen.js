@@ -13,14 +13,14 @@ import Screen from "./Screen";
 const HomeScreen = () => {
   const { setData } = useForecastData();
 
-  const [seacrhQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchRecommendation, setSearchRecommendation] = useState([]);
   const [forecastCity, setForecastCity] = useState("");
   const [searchError, setSearchError] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showIntialSearchRecommendation, setShowIntialSearchRecommendation] =
+  const [showInitialSearchRecommendation, setShowInitialSearchRecommendation] =
     useState(false);
-  const [intialsearchRecommendation, setIntialSearchRecommendation] = useState([
+  const [initialSearchRecommendation, setInitialSearchRecommendation] = useState([
     {
       type: "currentLocation",
       id: "useCurrentCity",
@@ -54,7 +54,7 @@ const HomeScreen = () => {
         setForecastCity(`${currentCoords.name}, ${currentCoords.country}`);
       }
     } catch (err) {
-      Alert.alert("Error", "Error occured, Try Agian Later!");
+      Alert.alert("Error", "Error occurred, Try Again Later!");
     }
   };
 
@@ -66,9 +66,9 @@ const HomeScreen = () => {
     }
   }, [forecastCity]);
 
-  const searchAutocomplete = async (seacrhText) => {
+  const searchAutocomplete = async (searchText) => {
     try {
-      const res = await getSearchRecommendation(seacrhText);
+      const res = await getSearchRecommendation(searchText);
       if (res) {
         setSearchRecommendation(res);
       }
@@ -78,22 +78,22 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    if (seacrhQuery) {
-      searchAutocomplete(seacrhQuery);
+    if (searchQuery) {
+      searchAutocomplete(searchQuery);
     } else {
       setSearchRecommendation([]);
     }
-  }, [seacrhQuery]);
+  }, [searchQuery]);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await AsyncStorage.getItem("searchHistory");
         if (res) {
-          setIntialSearchRecommendation(JSON.parse(res));
+          setInitialSearchRecommendation(JSON.parse(res));
         }
       } catch (err) {
-        Alert.alert("Error", "Error occured, Try Agian Later!");
+        Alert.alert("Error", "Error occurred, Try Again Later!");
       }
     })();
   }, []);
@@ -101,9 +101,9 @@ const HomeScreen = () => {
   useEffect(() => {
     AsyncStorage.setItem(
       "searchHistory",
-      JSON.stringify(intialsearchRecommendation)
+      JSON.stringify(initialSearchRecommendation)
     );
-  }, [intialsearchRecommendation]);
+  }, [initialSearchRecommendation]);
 
   if (isLoading) {
     return <LoadingOverlay />;
@@ -115,18 +115,18 @@ const HomeScreen = () => {
         setSearchQuery={setSearchQuery}
         setSearchRecommendation={setSearchRecommendation}
         setForecastCity={setForecastCity}
-        setShowIntialSearchRecommendation={setShowIntialSearchRecommendation}
-        setIntialSearchRecommendation={setIntialSearchRecommendation}
+        setShowInitialSearchRecommendation={setShowInitialSearchRecommendation}
+        setInitialSearchRecommendation={setInitialSearchRecommendation}
         searchRecommendation={
-          seacrhQuery.length >= 1 &&
+          searchQuery.length >= 1 &&
           searchRecommendation.length == 0 &&
           searchError.length
             ? searchError
-            : seacrhQuery
+            : searchQuery
             ? searchRecommendation
-            : showIntialSearchRecommendation && intialsearchRecommendation
+            : showInitialSearchRecommendation && initialSearchRecommendation
         }
-        showIntialSearchRecommendation={showIntialSearchRecommendation}
+        showInitialSearchRecommendation={showInitialSearchRecommendation}
       />
       <ForeCast />
     </Screen>

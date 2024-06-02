@@ -15,8 +15,8 @@ const SearchRecommendationList = ({
   data,
   setForecastCity,
   onPress,
-  setIntialSearchRecommendation,
-  showIntialSearchRecommendation,
+  setInitialSearchRecommendation,
+  showInitialSearchRecommendation,
 }) => {
   const dataLength = useMemo(() => data.length, [data]);
   const height = useSharedValue(0);
@@ -40,7 +40,7 @@ const SearchRecommendationList = ({
     }
     setForecastCity(item.name + " " + item.country);
     onPress();
-    setIntialSearchRecommendation((pre) => {
+    setInitialSearchRecommendation((pre) => {
       if (pre.some((mapItem) => mapItem.id === item.id)) {
         return pre;
       } else {
@@ -50,7 +50,7 @@ const SearchRecommendationList = ({
   }, []);
 
   const deleteSearchHistory = (id) => {
-    setIntialSearchRecommendation((pre) => {
+    setInitialSearchRecommendation((pre) => {
       return pre.filter((filterItem) => filterItem.id != id);
     });
   };
@@ -59,13 +59,13 @@ const SearchRecommendationList = ({
     height.value = withTiming(0, {
       duration: 250,
     });
-    
-    if (!showIntialSearchRecommendation) return;
+
+    if (!showInitialSearchRecommendation) return;
 
     height.value = withTiming(hp("5.6%") * dataLength, {
       duration: 250,
     });
-  }, [dataLength, showIntialSearchRecommendation]);
+  }, [dataLength, showInitialSearchRecommendation]);
 
   return (
     <Animated.View style={[styles.container, { height }]}>
